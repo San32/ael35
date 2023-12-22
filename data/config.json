@@ -1,0 +1,104 @@
+{
+	"comm": {
+		"auto_start": true,
+		"read_cam_time": "300"
+	},
+	"up": {
+		"cam1": {
+			"cam": {
+				"url": "rtsp://admin:asdQWE12!%40@101.122.3.201:554/profile2/media.smp",
+				"use": true
+			},
+			"detect": {
+				"door_open": "0.40",
+				"door_close": "0.35",
+				"wheelchair": "0.50",
+				"stroller": "0.50",
+				"silvercar": "0.50",
+				"scuter": "0.50"
+			},
+			"poi": {
+				"use": false,
+				"x": "0",
+				"y": "0",
+				"e_x": "400",
+				"e_y": "300"
+			}
+		},
+		"cam2": {
+			"cam": {
+				"url": "rtsp://root:asdQWE12!%40@101.122.3.202:554/profile2/media.smp",
+				"use": true
+			},
+			"detect": {
+				"door_open": "0.40",
+				"door_close": "0.35",
+				"wheelchair": "0.50",
+				"stroller": "0.50",
+				"silvercar": "0.50",
+				"scuter": "0.50"
+			},
+			"poi": {
+				"use": false,
+				"x": "0",
+				"y": "0",
+				"e_x": "400",
+				"e_y": "300"
+			}
+		},
+		"io": {
+			"value_io_ip": "10.128.17.49",
+			"value_io_relay_port": "0",
+			"value_io_delay_time": "9"
+		}
+	},
+	"dn": {
+		"cam1": {
+			"cam": {
+				"url": "rtsp://admin:asdQWE12!%40@101.122.3.203:554/profile2/media.smp",
+				"use": true
+			},
+			"detect": {
+				"door_open": "0.35",
+				"door_close": "0.35",
+				"wheelchair": "0.50",
+				"stroller": "0.50",
+				"silvercar": "0.50",
+				"scuter": "0.50"
+			},
+			"poi": {
+				"use": true,
+				"x": "0",
+				"y": "0",
+				"e_x": "400",
+				"e_y": "300"
+			}
+		},
+		"cam2": {
+			"cam": {
+				"url": "rtsp://admin:asdQWE12!%40@101.122.3.204:554/profile2/media.smp",
+				"use": true
+			},
+			"detect": {
+				"door_open": "0.35",
+				"door_close": "0.35",
+				"wheelchair": "0.50",
+				"stroller": "0.65",
+				"silvercar": "0.50",
+				"scuter": "0.50"
+			},
+			"poi": {
+				"use": true,
+				"x": "70",
+				"y": "20",
+				"e_x": "223",
+				"e_y": "263"
+			}
+		},
+		"io": {
+			"value_io_ip": "10.128.17.49",
+			"value_io_relay_port": "1",
+			"value_io_delay_time": "9"
+		}
+	}
+}

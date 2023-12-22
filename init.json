@@ -1,0 +1,5 @@
+{
+    "auto_start": true,
+	"read_cam_time": "100",
+    "el_config_file": "./config.json"
+}
