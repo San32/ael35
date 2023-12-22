@@ -7,7 +7,7 @@ import time
 from PIL import ImageFont, ImageDraw, Image
 import numpy as np
 
-global path_config
+# global Config_path
 
 global RUN_OK 
 global RUN_FAIL
@@ -17,28 +17,9 @@ global READ_FAIL
 
 
 ### PC config
-
-# font_path = "/home/nvidia/work/auto_el/data/NanumMyeongjoBold.ttf"
-# font = ImageFont.truetype(font_path, 20)
-# pwd = "/home/comm/conda_work/git_test/ael/"
-# path_config = pwd + "config.json"
-### PC config ---end
-
-
-### xavier config
-
-# font_path = "/home/nvidia/work/ael_data/NanumMyeongjoBold.ttf"
-# font = ImageFont.truetype(font_path, 20)
-
-# pwd = "/home/nvidia/work/ael35/"
-# path_config = pwd + "config.json"
-
-# yolov5_path = '/home/nvidia/work/yolov5'
-# el_pt_path = "/home/nvidia/work/ael_data/best.pt"
-
-Base_path = "/home/nvidia/ael35/"
-Data_path = "/home/nvidia/ael35/data/"
-Yolov5_path = "/home/nvidia/work/yolov5"
+Base_path = "/home/comm/conda_work/ael35/"
+Data_path = Base_path + "data/"
+Yolov5_path = "/home/comm/data/yolov5"
 
 Font_path = Data_path + "NanumMyeongjoBold.ttf"
 
@@ -47,19 +28,19 @@ V5_pt_path = Data_path + "yolov5s.pt"
 El_pt_path = Data_path + "best.pt"
 
 
-### PC config ---end
 
-# Base_path = "/home/comm/conda_work/ael35/"
-# Data_path = "/home/comm/conda_work/ael_data/"
-# Yolov5_path = "/home/comm/data/yolov5"
+
+# ### xavier config
+# Base_path = "/home/nvidia/ael35/"
+# Data_path = "/home/nvidia/ael35/data/"
+# Yolov5_path = "/home/nvidia/work/yolov5"
 
 # Font_path = Data_path + "NanumMyeongjoBold.ttf"
 
 # Config_path = Data_path + "config.json"
 # V5_pt_path = Data_path + "yolov5s.pt"
 # El_pt_path = Data_path + "best.pt"
-        
-###
+
 
 def make_nouse_img():
     font = ImageFont.truetype(Font_path, 20)

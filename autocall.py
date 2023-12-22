@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
 """엘리베이터 자동호출 시스템 메인
 
 Returns:
@@ -112,7 +112,7 @@ class Vi_thread(QThread):
                 print(f'self.cap None, re try')
                 self.cap = cv2.VideoCapture(self.url)
             else:
-                
+                # QTest.qWait(100)
                 ret, cv_img = self.cap.read()
                 if ret:
                     # print(f' self.list_cap read ok...porcess')
@@ -126,7 +126,7 @@ class Vi_thread(QThread):
                     # print(f'cap.release()     {self.cap}  {self.cap.isOpened()}')
                     
             # QTest.qWait(1000)
-            # time.sleep(1)
+            # time.sleep(0.2)
         self.change_pixmap_signal.emit(Default_img, self.tag)
         self.cap.release()
                         
@@ -475,6 +475,16 @@ class Main_ael_win(QMainWindow):
         self.setFixedHeight(760)
         # self.setMinimumHeight(500)
         self.statusBar.showMessage("io_hide")
+        
+    def closeEvent(self, event):
+        reply = QMessageBox.question(self, 'Window Close', '프로그램을 종료 할까요?',
+				QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+        	event.accept()
+        	# print('Window closed')
+        else:
+        	event.ignore()
 
     def show_configPanel(self):
         self.auto_stop()
@@ -517,7 +527,7 @@ class Main_ael_win(QMainWindow):
         # print(f'{self.list_poi[tag]}')
         print(f'{self.data}')
 
-        write_config(path_config, self.data)
+        write_config(Config_path, self.data)
 
     def init_ui(self):
         self.img_list = [None, None, None, None]
@@ -901,6 +911,7 @@ class Img_thread(QThread):
                             # print(f"try error :{e}")
                             pass
             QTest.qWait(200)
+            # time.sleep(0.2)
         for id in range(4):
             if self.list_cam_use[id]:
                 self.list_signal_img[id].emit(Default_img)
