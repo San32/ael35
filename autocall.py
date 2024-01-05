@@ -373,21 +373,15 @@ class Main_ael_win(QMainWindow):
         self.statusBar = self.statusBar()
         self.statusBar.showMessage("ready")
 
-
-        # self.set_data()
         self.init_ui()
         self.init_menu()
         self.setMouseTracking(False)
-        # self.ui_btn_overriding()
         
         self.io_show()
         self.show()
         
-        
-        
         QTimer.singleShot(1000, self.auto_start)
         
-        # self.init_thread()
         
         
         
