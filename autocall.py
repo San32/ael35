@@ -833,25 +833,25 @@ class Main_win4(QMainWindow):
         self.setCentralWidget(widget_main)
         
     def init_toolbar(self):
-        self.action_exit = QAction(QIcon('./data/exit.png'), 'Exit', self)
+        self.action_exit = QAction(QIcon('./icon/exit.png'), 'Exit', self)
         self.action_exit.setShortcut('Ctrl+Q')
         self.action_exit.setStatusTip('Exit application')
         self.action_exit.triggered.connect(qApp.quit)
         self.action_exit.setDisabled(False)
         
-        self.action_play = QAction(QIcon('./data/play.png'), 'Play', self)
+        self.action_play = QAction(QIcon('./icon/play.png'), 'Play', self)
         self.action_play.setShortcut('Ctrl+P')
         self.action_play.setStatusTip('Exit application')
         self.action_play.triggered.connect(self.clicked_play)
         self.action_play.setDisabled(True)
         
-        self.action_stop = QAction(QIcon('./data/stop.png'), 'Stop', self)
+        self.action_stop = QAction(QIcon('./icon/stop.png'), 'Stop', self)
         self.action_stop.setShortcut('Ctrl+S')
         self.action_stop.setStatusTip('Exit application')
         self.action_stop.triggered.connect(self.clicked_stop)
         self.action_stop.setDisabled(True)
         
-        self.action_set = QAction(QIcon('./data/setting.png'), 'seTting', self)
+        self.action_set = QAction(QIcon('./icon/setting.png'), 'seTting', self)
         self.action_set.setShortcut('Ctrl+T')
         self.action_set.setStatusTip('Exit application')
         self.action_set.triggered.connect(self.clicked_setting)
