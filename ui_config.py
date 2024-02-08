@@ -67,6 +67,50 @@ class KLabel(QLabel):
                       "border-radius: 3px")
         self.setMinimumWidth(150)
 
+# ## 공통사항 설정 UI
+# class Common_conf_ui(QWidget):
+
+#     def __init__(self, title):
+#         super().__init__()
+#         self.title = title
+#         self.init_ui()
+#         # self.show()
+
+#     def init_ui(self):
+#         self.conf_path = QLineEdit()    
+#         self.conf_path.setFixedWidth(400)
+#         self.conf_change = QPushButton("파일 변경")
+        
+#         lay_1 = QHBoxLayout()
+#         lay_1.addWidget(KLabel(self.title))
+#         lay_1.addWidget(QLabel("파일 경로"))
+#         lay_1.addWidget(self.conf_path)
+#         # lay_1.addWidget(QLabel("        카메라 영상분석 반복 시간"))
+#         lay_1.addWidget(self.conf_change)
+#         lay_1.addStretch(1)
+
+#         self.setLayout(lay_1)
+
+#     def set_data(self, data):
+#         try:
+#             self.auto_start.setChecked(bool(data['auto_start']))
+#             self.read_cam_time.setText(data['read_cam_time'])
+#         except:
+#             # print("err")
+#             return "E"
+
+#     def get_data(self):
+#         try:
+#             data = {
+#                     "auto_start": self.auto_start.isChecked(),
+#                     "read_cam_time" : self.read_cam_time.text(),
+#                 }
+#             return data
+
+#         except:
+#             # print("err")
+#             return "E"
+
 ## 공통사항 설정 UI
 class Common_conf_ui(QWidget):
 
@@ -77,17 +121,16 @@ class Common_conf_ui(QWidget):
         # self.show()
 
     def init_ui(self):
-        self.auto_start = QCheckBox()    ## 프로그램 시작 시 자동으로 시작...카메라 읽기..
-        self.auto_start.setChecked(True)
-        self.read_cam_time = QLineEdit("0") ## 카메라 읽기 반속 시간 ms 단위
-        self.read_cam_time.setFixedWidth(50)
+        self.conf_path = QLineEdit()    
+        self.conf_path.setFixedWidth(400)
+        self.conf_change = QPushButton("파일 변경")
         
         lay_1 = QHBoxLayout()
         lay_1.addWidget(KLabel(self.title))
-        lay_1.addWidget(QLabel("자동실행"))
-        lay_1.addWidget(self.auto_start)
-        lay_1.addWidget(QLabel("        카메라 영상분석 반복 시간"))
-        lay_1.addWidget(self.read_cam_time)
+        lay_1.addWidget(QLabel("파일 경로"))
+        lay_1.addWidget(self.conf_path)
+        # lay_1.addWidget(QLabel("        카메라 영상분석 반복 시간"))
+        lay_1.addWidget(self.conf_change)
         lay_1.addStretch(1)
 
         self.setLayout(lay_1)
@@ -112,6 +155,7 @@ class Common_conf_ui(QWidget):
             # print("err")
             return "E"
 
+
 ## IO제어기 설정 UI
 class IO_conf_ui(QWidget):
 
@@ -122,9 +166,9 @@ class IO_conf_ui(QWidget):
         # self.show()
 
     def init_ui(self):
-        self.io_ip = QLineEdit()
-        self.io_relay_port = QLineEdit()
-        self.io_delay_time = QLineEdit()
+        self.io_ip = QLineEdit("192.168.0.0")
+        self.io_relay_port = QLineEdit("0")
+        self.io_delay_time = QLineEdit("10")
 
         lay_1 = QHBoxLayout()
         lay_1.addWidget(KLabel(self.title))
@@ -424,12 +468,12 @@ class ELCam_conf_ui2(QWidget):
         ## 생성
         self.cam_url = QLineEdit()
         self.cam_cam_use = QCheckBox()
-        self.cam_value_open = ValueBox("0.8")
-        self.cam_value_close = ValueBox("0.8")
-        self.cam_value_wheelchair = ValueBox("0.8")
-        self.cam_value_stroller = ValueBox("0.8")
-        self.cam_value_silvercar = ValueBox("0.8")
-        self.cam_value_scuter = ValueBox("0.8")
+        self.cam_value_open = ValueBox("0.5")
+        self.cam_value_close = ValueBox("0.5")
+        self.cam_value_wheelchair = ValueBox("0.5")
+        self.cam_value_stroller = ValueBox("0.5")
+        self.cam_value_silvercar = ValueBox("0.5")
+        self.cam_value_scuter = ValueBox("0.5")
         self.cam_poi_use = QCheckBox()
         self.cam_poi_x = ValueBox("0")
         self.cam_poi_y = ValueBox("0")
@@ -511,20 +555,22 @@ class UI_config(QDialog):
 
     def __init__(self):
         super().__init__()
+        
         self.init_ui()
         self.init_signal()
-        # self.clicked_read()
+        self.clicked_read()
         # self.show()
-        self.auto_process()
+        # self.auto_process()
 
-    def auto_process(self):
+    # def auto_process(self):
         
-        if os.path.exists(Config_path):
-            print(f'path_config : {Config_path}')
-            self.clicked_read()
+        # if os.path.exists(Config_path):
+        #     print(f'path_config : {Config_path}')
+            # self.clicked_read()
+        
 
     def init_ui(self):
-        self.comm_conf = Common_conf_ui("공통")
+        # self.comm_conf = Common_conf_ui("설정 파일")
 
         self.up_cam1 = ELCam_conf_ui("cam1")
         self.up_cam2 = ELCam_conf_ui("cam2")
@@ -535,22 +581,22 @@ class UI_config(QDialog):
         self.dn_io = IO_conf_ui("IO 제어기")
 
         ##버튼
-        self.btn_read = QPushButton("read")
+        # self.btn_read = QPushButton("파일 불러오기")
         self.btn_save = QPushButton("저장")
         self.btn_cancel = QPushButton("취소")
 
         btn_widget = QWidget()
         btn_lay = QHBoxLayout()
-        btn_lay.addWidget(self.btn_read)
+        # btn_lay.addWidget(self.btn_read)
         btn_lay.addWidget(self.btn_save)
         btn_lay.addWidget(self.btn_cancel)
         btn_widget.setLayout(btn_lay)
 
         ## 공통사항 그룹박스
-        comm_grb = QGroupBox("공통사항")
-        comm_lay = QVBoxLayout()
-        comm_lay.addWidget(self.comm_conf)
-        comm_grb.setLayout(comm_lay)
+        # comm_grb = QGroupBox("공통사항")
+        # comm_lay = QVBoxLayout()
+        # comm_lay.addWidget(self.comm_conf)
+        # comm_grb.setLayout(comm_lay)
 
         ##
         up_grb = QGroupBox("상부 카메라")
@@ -566,13 +612,27 @@ class UI_config(QDialog):
         dn_lay.addWidget(self.dn_cam2)
         dn_lay.addWidget(self.dn_io)
         dn_grb.setLayout(dn_lay)
+        
+        
+        ### 종료 판넬
+        self.lbl_info = QLabel(f"10초 후 자동으로 실행됨...")
+        self.lbl_info.setStyleSheet(" background-color: blue; color : white")
+        self.lbl_info.setAlignment(Qt.AlignCenter)
 
         ##
         vbox = QVBoxLayout()
-        vbox.addWidget(comm_grb)
+        # vbox.addWidget(comm_grb)
         vbox.addWidget(up_grb)
         vbox.addWidget(dn_grb)
+        # vbox.addWidget(self.lbl_info)
         vbox.addWidget(btn_widget)
+        
+        # self.up_cam1.setDisabled(True)
+        # self.up_cam2.setDisabled(True)
+        # self.up_io.setDisabled(True)
+        # self.dn_cam1.setDisabled(True)
+        # self.dn_cam2.setDisabled(True)
+        # self.dn_io.setDisabled(True)
 
         self.setLayout(vbox)
         self.resize(1000,500)
@@ -580,7 +640,7 @@ class UI_config(QDialog):
 
     def init_signal(self):
 
-        self.btn_read.clicked.connect(self.clicked_read)
+        # self.btn_read.clicked.connect(self.clicked_read)
         self.btn_save.clicked.connect(self.clicked_save)
         self.btn_cancel.clicked.connect(self.clicked_cancel)
 
@@ -631,13 +691,13 @@ class UI_config(QDialog):
     ## 현재 UI에 설정된 값을 읽어온다
     def read_ui_make_data(self):
         pass
-        comm_data = {}
+        # comm_data = {}
         up_data = {}
         dn_data = {}
         data ={}
 
-        ## comm 데이터 가져오기
-        comm_data = self.comm_conf.get_data()
+        # ## comm 데이터 가져오기
+        # comm_data = self.comm_conf.get_data()
 
         cam1 = self.up_cam1.get_data()
         cam2 = self.up_cam2.get_data()
@@ -657,17 +717,17 @@ class UI_config(QDialog):
         dn_data['io'] = io
 
         ##
-        data['comm'] = comm_data
+        # data['comm'] = comm_data
         data['up'] = up_data
         data['dn'] = dn_data
 
         return data
 
     def disp_data(self, data): 
-        try:
-            self.comm_conf.set_data(data['comm'])
-        except :
-            pass
+        # try:
+        #     self.comm_conf.set_data(data['comm'])
+        # except :
+        #     pass
 
         try:
             self.up_cam1.set_data(data['up']['cam1'])

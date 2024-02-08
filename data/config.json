@@ -1,8 +1,4 @@
 {
-	"comm": {
-		"auto_start": true,
-		"read_cam_time": "300"
-	},
 	"up": {
 		"cam1": {
 			"cam": {
@@ -32,7 +28,7 @@
 			},
 			"detect": {
 				"door_open": "0.40",
-				"door_close": "0.35",
+				"door_close": "0.4",
 				"wheelchair": "0.50",
 				"stroller": "0.50",
 				"silvercar": "0.50",
@@ -40,10 +36,10 @@
 			},
 			"poi": {
 				"use": true,
-				"x": "85",
-				"y": "44",
-				"e_x": "309",
-				"e_y": "249"
+				"x": "61",
+				"y": "5",
+				"e_x": "336",
+				"e_y": "290"
 			}
 		},
 		"io": {
@@ -68,16 +64,16 @@
 			},
 			"poi": {
 				"use": true,
-				"x": "0",
-				"y": "0",
-				"e_x": "400",
-				"e_y": "300"
+				"x": "50",
+				"y": "4",
+				"e_x": "347",
+				"e_y": "291"
 			}
 		},
 		"cam2": {
 			"cam": {
-				"url": "rtsp://admin:asdQWE12!%40@101.122.3.204:554/profile2/media.smp",
-				"use": true
+				"url": "rtsp://admin:asdQWE12!%40@101.122.3.11:558/LiveChannel/25/media.smp",
+				"use": false
 			},
 			"detect": {
 				"door_open": "0.35",

@@ -1,5 +1,4 @@
 {
-    "auto_start": true,
-	"read_cam_time": "100",
-    "el_config_file": "./config.json"
+	"config_file": "",
+	"model_file": "./data/best.pt"
 }

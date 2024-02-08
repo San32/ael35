@@ -41,15 +41,17 @@ class Colors:
 
 
 class Model(QWidget):
-
+    
     def __init__(self):
         super().__init__()
+        ### 모델 불러오기 성골 실패 여부
+        self.load_ok = False  
         self.font = ImageFont.truetype(Font_path, 10)
         
         self.colors = Colors()
 
         ## 모델 다변화
-        self.load_model_el(Yolov5_path, El_pt_path)
+        # self.load_ok = self.load_model_el(Yolov5_path, El_pt_path)
         # self.load_model_v5(Yolov5_path, V5_pt_path)
 
 
@@ -90,9 +92,11 @@ class Model(QWidget):
             self.classes = self.model.names
             self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
             print(f'model type : {type(self.model)}')
+            return True
 
         except Exception as e:
             print(f"load_model exception : {e}")
+            return False
 
     def load_model_v5(self, yolov5_path, pt_path):
 

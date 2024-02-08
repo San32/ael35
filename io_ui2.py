@@ -204,37 +204,39 @@ class IO_thread(QThread):
             
     def run(self):
         if self._run_flag :
-            # print(f"IO_thread run")
+            print(f"IO_thread run : {self.io_ip}")
             self.io_state = False
             c = ModbusClient(host=self.io_ip, port=self.io_port, auto_open=True)
             while self._run_flag:
-                
-                if c.open():
-                    # print(f"{get_time()} ModbusClient open ? : {c.open()}")
-                    
-                    ### relay control
-                    if self.que_relay_on.qsize() > 0:
-                        while self.que_relay_on.qsize() > 0:
-                            c.write_single_coil(self.que_relay_on.get(), True)
-                    else:
-                        if self.que_relay_off.qsize() > 0:
-                            while self.que_relay_off.qsize() > 0:
-                                c.write_single_coil(self.que_relay_off.get(), False)
+                try:
+                    if c.open():
+                        # print(f"{get_time()} ModbusClient open ? : {c.open()}")
                         
-                    ### read modbus
-                    self.di_regs = c.read_input_registers(0x30, 1)
-                    self.r_regs = c.read_coils(0, 6)
-                    # print(f"IO_thread : {self.di_regs} {self.r_regs}")
-                    self.signal_di_relay.emit(self.di_regs2di_bool(self.di_regs[0]), c.read_coils(0, 6))
-                    QTest.qWait(200)
-
-                else: #c.open : False
-                    # self.io_state = False
-                    self.signal_state.emit(False)
-                    print(f"{get_time()} open fail,   QTest.qWait(500), re connect")
-                    QTest.qWait(200)
-                    c = ModbusClient(host=self.io_ip, port=self.io_port, auto_open=True)
-                    # print('unable to read coils...loop break')
+                        ### relay control
+                        if self.que_relay_on.qsize() > 0:
+                            while self.que_relay_on.qsize() > 0:
+                                c.write_single_coil(self.que_relay_on.get(), True)
+                        else:
+                            if self.que_relay_off.qsize() > 0:
+                                while self.que_relay_off.qsize() > 0:
+                                    c.write_single_coil(self.que_relay_off.get(), False)
+                            
+                        ### read modbus
+                        self.di_regs = c.read_input_registers(0x30, 1)
+                        self.r_regs = c.read_coils(0, 6)
+                        # print(f"IO_thread : {self.di_regs} {self.r_regs}")
+                        self.signal_di_relay.emit(self.di_regs2di_bool(self.di_regs[0]), c.read_coils(0, 6))
+                        QTest.qWait(200)
+                    else:
+                        self.signal_state.emit(False)
+                        print(f"{get_time()} open fail,   QTest.qWait(500), re connect")
+                        QTest.qWait(200)
+                        c = ModbusClient(host=self.io_ip, port=self.io_port, auto_open=True)
+                        # print('unable to read coils...loop break')
+                except Exception as e:
+                    print(f'IO_thread... run... Exception {e}')
+                    pass
+                    
                     
                 
     def di_regs2di_bool(self, num):
