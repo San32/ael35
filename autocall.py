@@ -520,7 +520,7 @@ class Main_win4(QMainWindow):
     def show_loding_win(self):
         self.loding_dlg = Loding_win(self)
         if self.loding_dlg.exec_():
-            print("show_loding_win   acept...")
+            # print("show_loding_win   acept...")
             self.io_thread._run_flag = True
             self.io_thread.start()
             self.timer_get.start()
@@ -528,7 +528,7 @@ class Main_win4(QMainWindow):
             self.action_stop.setEnabled(True)
             self.action_set.setEnabled(False)
         else:
-            print("show_loding_win   cancel...")
+            # print("show_loding_win   cancel...")
             self.clicked_stop()
             
     def show_config_win(self):
@@ -546,6 +546,7 @@ class Main_win4(QMainWindow):
         
     def set_data(self):
         self.data = read_config(Config_path)
+        self.call_btn_label = ["사용안함", "사용안함", "사용안함", "사용안함", "사용안함", "사용안함"]
         if self.data is None:
             # print(f"환결설정 파일이 없음.")
             return False
@@ -626,7 +627,9 @@ class Main_win4(QMainWindow):
             
     def check_io(self):
         ### IO 체크
+        
         c = ModbusClient(host=self.data['up']['io']['value_io_ip'], port=502, auto_open=True)
+        
         if not c.open():
             self.loding_dlg.lbl_ok_io.setStyleSheet("color:red")
             self.loding_dlg.lbl_ok_io.setText('Failed')
@@ -636,11 +639,36 @@ class Main_win4(QMainWindow):
         else:
             self.loding_dlg.lbl_ok_io.setStyleSheet("color:blue")
             self.loding_dlg.lbl_ok_io.setText('Succeed')
+            
+            self.check_io_relay_no()
+            
             ### io_thread start
             self.io_thread.set_data(self.data['up']['io']['value_io_ip'], 502)
             QTest.qWait(50)
             print(f'check_data : IO 통신체크 OK')
             return True
+        
+    def check_io_relay_no(self):
+        up_io_relay_no = None
+        dn_io_relay_no = None
+        ### ui_io 콜버튼 이름변경
+        # call_btn_label = ["사용안함", "사용안함", "사용안함", "사용안함", "사용안함", "사용안함"]
+        try:
+            up_io_relay_no = int(self.data['up']['io']['value_io_relay_port'])
+            dn_io_relay_no = int(self.data['dn']['io']['value_io_relay_port'])
+            
+            self.call_btn_label[up_io_relay_no] = "상부 call"
+            self.call_btn_label[dn_io_relay_no] = "하부 call"
+            
+        except Exception as e:
+            print(f'check_io_relay_no Exception {e}')
+            
+        for id in range(6):
+            self.ui_io.list_call[id].setText(self.call_btn_label[id])
+            
+        
+        
+            
             
             
     def check_cam(self):
@@ -836,7 +864,7 @@ class Main_win4(QMainWindow):
         self.action_exit = QAction(QIcon('./icon/exit.png'), 'Exit', self)
         self.action_exit.setShortcut('Ctrl+Q')
         self.action_exit.setStatusTip('Exit application')
-        self.action_exit.triggered.connect(qApp.quit)
+        self.action_exit.triggered.connect(self.close)
         self.action_exit.setDisabled(False)
         
         self.action_play = QAction(QIcon('./icon/play.png'), 'Play', self)
@@ -858,7 +886,7 @@ class Main_win4(QMainWindow):
         self.action_set.setDisabled(True)
         
         
-        self.toolbar = self.addToolBar('Exit')
+        self.toolbar = self.addToolBar('toolBar')
         self.toolbar.addAction(self.action_exit)
         self.toolbar.addAction(self.action_play)
         self.toolbar.addAction(self.action_stop)
@@ -892,6 +920,11 @@ class Main_win4(QMainWindow):
         self.action_set.setEnabled(True)
         pass
     
+        ### call 버튼 초기화
+        self.call_btn_label = ["사용안함", "사용안함", "사용안함", "사용안함", "사용안함", "사용안함"]
+        for id in range(6):
+            self.ui_io.list_call[id].setText(self.call_btn_label[id])
+    
     def clicked_setting(self):
                 
         self.show_config_win()
@@ -901,6 +934,16 @@ class Main_win4(QMainWindow):
         self.action_set.setEnabled(True)
         pass
     
+    def closeEvent(self, event):
+        quit_msg = "종료하시겠습니까?"
+        reply = QMessageBox.question(self, 'Message', quit_msg, QMessageBox.Yes, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            self.clicked_stop()            
+            event.accept()
+        else:
+            pass
+            event.ignore()
     
     @pyqtSlot(int, bool, QRect)
     def receive_rect(self, tag, use, rect):
@@ -1050,7 +1093,7 @@ class Main_win4(QMainWindow):
         
     def init_timer(self):
         self.timer_get = QTimer()
-        self.timer_get.setInterval(200)
+        self.timer_get.setInterval(100)
         # self.timer_get.timeout.connect(self.cam_get_img)
         self.timer_get.timeout.connect(self.repeat_get_img)
         

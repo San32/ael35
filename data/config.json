@@ -27,8 +27,8 @@
 				"use": true
 			},
 			"detect": {
-				"door_open": "0.40",
-				"door_close": "0.4",
+				"door_open": "0.35",
+				"door_close": "0.35",
 				"wheelchair": "0.50",
 				"stroller": "0.50",
 				"silvercar": "0.50",
@@ -73,13 +73,13 @@
 		"cam2": {
 			"cam": {
 				"url": "rtsp://admin:asdQWE12!%40@101.122.3.11:558/LiveChannel/25/media.smp",
-				"use": false
+				"use": true
 			},
 			"detect": {
 				"door_open": "0.35",
 				"door_close": "0.35",
 				"wheelchair": "0.50",
-				"stroller": "0.65",
+				"stroller": "0.50",
 				"silvercar": "0.50",
 				"scuter": "0.50"
 			},
@@ -93,7 +93,7 @@
 		},
 		"io": {
 			"value_io_ip": "10.128.17.49",
-			"value_io_relay_port": "1",
+			"value_io_relay_port": "2",
 			"value_io_delay_time": "9"
 		}
 	}

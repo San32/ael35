@@ -181,6 +181,7 @@ class IO_thread(QThread):
         self.io_ip = ip
         self.io_port = port
         
+            
     @pyqtSlot(int, bool)
     def set_relay(self, io_num, value):
         c = ModbusClient(host=self.io_ip, port=self.io_port, auto_open=True)
@@ -309,6 +310,7 @@ class Ui_io(QGroupBox):
         port_label = ["PORT 0", "PORT 1", "PORT 2", "PORT 3", "PORT 4", "PORT 5"]
         di_label = ["None", "None", "None", "None", "None", "None"]
         relay_label = ["open", "open", "open", "open", "open", "open"]
+        call_btn_label = ["사용안함", "사용안함", "사용안함", "사용안함", "사용안함", "사용안함"]
 
         self.setTitle("IO 제어기")
         
@@ -362,7 +364,7 @@ class Ui_io(QGroupBox):
         label.setAlignment(Qt.AlignCenter)
         box_call.addWidget(label)
         for i in range(6):
-            btn = QPushButton(str(i))
+            btn = QPushButton(call_btn_label[i])
             btn.setObjectName(str(i))
             # btn.clicked.connect(self.clicked_call_btn)
             btn.pressed.connect(self.call_btn_pressed)
