@@ -553,12 +553,15 @@ class ELCam_conf_ui2(QWidget):
 
 class UI_config(QDialog):
 
-    def __init__(self):
+    def __init__(self, config_path):
         super().__init__()
+        
+        self.config_path = config_path
         
         self.init_ui()
         self.init_signal()
         self.clicked_read()
+        
         # self.show()
         # self.auto_process()
 
@@ -673,7 +676,7 @@ class UI_config(QDialog):
 
     ## 입력 시험
     def clicked_read(self):
-        data = read_config(Config_path)
+        data = read_config(self.config_path)
         # print(data)
         self.disp_data(data)
         pass
@@ -681,7 +684,7 @@ class UI_config(QDialog):
     def clicked_save(self):
         data = self.read_ui_make_data()
         print(data)
-        write_config(Config_path, data)
+        write_config(self.config_path, data)
         pass
         self.accept()
 

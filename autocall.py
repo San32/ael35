@@ -15,7 +15,7 @@ import asyncio
 
 from modelEL import *
 from cont import *
-from common import *
+# from common import *
 from ui_config import *
 from io_ui2 import *
 
@@ -243,16 +243,6 @@ class ImgLabel(QLabel):
                 painter.setBrush(br)
                 painter.drawRect(QRect(self.begin, self.end))
                 # print(f'begin: {self.begin.x()}, {self.begin.y()}  end: {self.end.x()}, {self.end.y()}')
-                
-            # if self._flag_show_text:
-            #     painter.setFont(QFont('Times New Roman', 11))
-            #     # painter.drawText(10, 290, self.text_str)
-
-            #     ## 여러개의 문자 표시
-            #     # print(f'{self.list_text}')
-            #     for i, j in enumerate(self.list_text):
-            #         painter.drawText(j[0], j[1], j[2])
-
         else:
             print("pix null")
 
@@ -456,6 +446,7 @@ class Main_win4(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("교통약자 인식 엘리베이터 자동호출 시스템")
+        self.setWindowIcon(QIcon(Icon_path+'wheelchair.png'))
         
         ###초기화
         self.list_cam = [None, None, None, None]
@@ -535,7 +526,7 @@ class Main_win4(QMainWindow):
         # self.clicked_stop()
         
         ## 창 띄우기
-        dlg = UI_config()
+        dlg = UI_config(Config_path)
         if dlg.exec_():
             print("acept...")
             # QTimer.singleShot(10, self.show_loding_win)
@@ -675,7 +666,7 @@ class Main_win4(QMainWindow):
         ### 카메라 체크
         for id in range(4):
             if not self.list_cam_use[id]:
-                img = img_draw_msg_center(Img_default, "사용 안함 ")
+                img = img_draw_msg_center(Img_default, "사용 안함 ", Font)
                 self.list_img_signal[id].emit(img)
                 self.loding_dlg.list_lbl_cam_ok[id].setStyleSheet("color:black")
                 self.loding_dlg.list_lbl_cam_ok[id].setText("사용안함")
@@ -685,7 +676,7 @@ class Main_win4(QMainWindow):
                     self.ok_cam[id] = True
                     self.loding_dlg.list_lbl_cam_ok[id].setStyleSheet("color:blue")
                     self.loding_dlg.list_lbl_cam_ok[id].setText("Succeed")
-                    img = img_draw_msg_center(Img_default, "카메라 연결 성공 ")
+                    img = img_draw_msg_center(Img_default, "카메라 연결 성공 ", Font)
                     self.list_img_signal[id].emit(img)
                     self.list_cam[id].cam.cam_run()
                     
@@ -693,7 +684,7 @@ class Main_win4(QMainWindow):
                 else:
                     self.ok_cam[id] = False
                     self.loding_dlg.list_lbl_cam_ok[id].setStyleSheet("color:red")
-                    img = img_draw_msg_center(Img_default, "카메라 연결 실패 " )
+                    img = img_draw_msg_center(Img_default, "카메라 연결 실패 " , Font)
                     self.list_img_signal[id].emit(img)
                     self.loding_dlg.list_lbl_cam_ok[id].setText("Failed")
                     
@@ -861,27 +852,27 @@ class Main_win4(QMainWindow):
         self.setCentralWidget(widget_main)
         
     def init_toolbar(self):
-        self.action_exit = QAction(QIcon('./icon/exit.png'), 'Exit', self)
+        self.action_exit = QAction(QIcon(Icon_path+'exit.png'), 'Exit', self)
         self.action_exit.setShortcut('Ctrl+Q')
         self.action_exit.setStatusTip('Exit application')
         self.action_exit.triggered.connect(self.close)
         self.action_exit.setDisabled(False)
         
-        self.action_play = QAction(QIcon('./icon/play.png'), 'Play', self)
+        self.action_play = QAction(QIcon(Icon_path+'play.png'), 'Play', self)
         self.action_play.setShortcut('Ctrl+P')
-        self.action_play.setStatusTip('Exit application')
+        self.action_play.setStatusTip('Play application')
         self.action_play.triggered.connect(self.clicked_play)
         self.action_play.setDisabled(True)
         
-        self.action_stop = QAction(QIcon('./icon/stop.png'), 'Stop', self)
+        self.action_stop = QAction(QIcon(Icon_path+'stop.png'), 'Stop', self)
         self.action_stop.setShortcut('Ctrl+S')
-        self.action_stop.setStatusTip('Exit application')
+        self.action_stop.setStatusTip('Stop application')
         self.action_stop.triggered.connect(self.clicked_stop)
         self.action_stop.setDisabled(True)
         
-        self.action_set = QAction(QIcon('./icon/setting.png'), 'seTting', self)
+        self.action_set = QAction(QIcon(Icon_path+'setting.png'), 'seTting', self)
         self.action_set.setShortcut('Ctrl+T')
-        self.action_set.setStatusTip('Exit application')
+        self.action_set.setStatusTip('Setting application')
         self.action_set.triggered.connect(self.clicked_setting)
         self.action_set.setDisabled(True)
         
@@ -1077,7 +1068,7 @@ class Main_win4(QMainWindow):
         print(f"init_model")
         try:
             self.model = None
-            self.model = Model()
+            self.model = Model(Font_infer)
             if self.model.load_model_el(Yolov5_path, El_pt_path):
                 print(f"type(self.model) : {type(self.model)}")
                 return True
@@ -1093,7 +1084,7 @@ class Main_win4(QMainWindow):
         
     def init_timer(self):
         self.timer_get = QTimer()
-        self.timer_get.setInterval(100)
+        self.timer_get.setInterval(Repeat_time)
         # self.timer_get.timeout.connect(self.cam_get_img)
         self.timer_get.timeout.connect(self.repeat_get_img)
         
@@ -1162,7 +1153,7 @@ class Main_win4(QMainWindow):
         
         for id in range(4):
             self.list_cam[id].cam_stop()
-            img = img_draw_msg_center(Img_default, "stop camera ")
+            img = img_draw_msg_center(Img_default, "stop camera ", Font)
             self.list_img_signal[id].emit(img)
             
         
@@ -1257,12 +1248,12 @@ class Cam_win(QWidget):
         
         re = self.cam.cam_open()
         if re :
-            img = img_draw_msg_center(Img_default, "connect : "+self.vi_url)
+            img = img_draw_msg_center(Img_default, "connect : "+self.vi_url, Font)
             self.signal_cv_img.emit(img)
             return True
             
         else:
-            img = img_draw_msg_center(Img_default, "disconnect : "+self.vi_url)
+            img = img_draw_msg_center(Img_default, "disconnect : "+self.vi_url, Font)
             self.signal_cv_img.emit(img)
             return False
     
@@ -1272,16 +1263,14 @@ class Cam_win(QWidget):
         
     def cam_stop(self):
         self.cam.cam_stop()
-        img = img_draw_msg_center(Img_default, "stop camera ")
+        img = img_draw_msg_center(Img_default, "stop camera ", Font)
         self.signal_cv_img.emit(img)
         
         
 
-### common data
-      
-
-
 # def make_nouse_img():
+#     font = ImageFont.truetype(Font_path, 13)
+    
 #     img = np.full(shape=(300, 400, 3), fill_value=100, dtype=np.uint8)
 #     b,g,r,a = 255,255,255,0
     
@@ -1290,39 +1279,62 @@ class Cam_win(QWidget):
 #     draw.text((150, 120),  "사용 안함", font=font, fill=(b,g,r,a))
 #     img = np.array(img_pil)
     
-#     return img
+#     return img            
+
+def img_draw_msg_center(img, msg, font):
+    # font = ImageFont.truetype(Font_path, 13)
+    b,g,r,a = 255,255,255,0
+    img_pil = Image.fromarray(img)
+    draw = ImageDraw.Draw(img_pil)
+    
+    font_width, font_height = font.getsize(msg)
+    new_width = (Img_size_x - font_width) / 2
+    new_height = (Img_size_y - font_height) / 2
+    
+    draw.text((new_width, new_height),  msg, font=font, fill=(b,g,r,a))
+    img = np.array(img_pil)
+    
+    return img   
+            
+
 
 
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
+    
+    Img_size_x = 400
+    Img_size_y = 300
+    
+    
+            
+    if len(sys.argv) == 1:
+        ### argv가 없으면 nvidia xavier 모드로 실행
+        print(f'nvidia xavier')
+    elif sys.argv[1] == '-l':
+        print(f'linux pc')
+        
+        ### PC config
+        Base_path = "/home/comm/conda_work/ael35/"
+        Data_path = Base_path + "data/"
+        Icon_path = Base_path + "icon/"
+        Yolov5_path = "/home/comm/data/yolov5"
+
+        Font_path = Data_path + "NanumMyeongjoBold.ttf"
+        Config_path = Data_path + "config.json"
+        V5_pt_path = Data_path + "yolov5s.pt"
+        El_pt_path = Data_path + "best.pt"
+        
+        Repeat_time = 50
+
+    Font = ImageFont.truetype(Font_path, 13)
+    Font_infer = ImageFont.truetype(Font_path, 10)
+    
+    Img_default = np.full(shape=(300, 400, 3), fill_value=20, dtype=np.uint8)
+    # Img_nouse_img = make_nouse_img()
+    
+    
     a = Main_win4()
-    # a = Cam_win()
+    # # a = Cam_win()
     sys.exit(app.exec())
     
-#    ### 모델
-#     def init_model(self):
-#         print(f"init_model")
-#         try:
-#             self.model = Model()
-#             if self.model.load_model_el(Yolov5_path, El_pt_path):
-#                 print(f"type(self.model) : {type(self.model)}")
-#                 return True
-#             else:
-#                 print(f" self.model.load_model_el(): fail")
-#                 return False
-#         except Exception as e:
-#             self.model = None
-#             print(f" self.model.load_model_el(): Exception {e}")
-        
-#         return False
-        
-        
-#     def init_timer(self):
-#         self.timer_get = QTimer()
-#         self.timer_get.start(1000)
-#         self.timer_get.timeout.connect(self.cam.cam_get_img)
-        
-#     def init_signal(self):
-#         self.cam.signal_retrieve.connect(self.receive_img)
-#         self.signal_cv_img.connect(self.lbl_img.changePixmap)

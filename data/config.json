@@ -58,7 +58,7 @@
 				"door_open": "0.35",
 				"door_close": "0.35",
 				"wheelchair": "0.50",
-				"stroller": "0.50",
+				"stroller": "0.5",
 				"silvercar": "0.50",
 				"scuter": "0.50"
 			},
@@ -79,16 +79,16 @@
 				"door_open": "0.35",
 				"door_close": "0.35",
 				"wheelchair": "0.50",
-				"stroller": "0.50",
+				"stroller": "0.7",
 				"silvercar": "0.50",
 				"scuter": "0.50"
 			},
 			"poi": {
 				"use": true,
-				"x": "70",
-				"y": "20",
-				"e_x": "223",
-				"e_y": "263"
+				"x": "90",
+				"y": "4",
+				"e_x": "193",
+				"e_y": "291"
 			}
 		},
 		"io": {

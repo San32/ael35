@@ -20,7 +20,7 @@ import queue
 import torch
 from PIL import Image, ImageFont, ImageDraw
 
-from common import *
+# from common import *
 
 class Colors:
     # Ultralytics color palette https://ultralytics.com/
@@ -42,11 +42,11 @@ class Colors:
 
 class Model(QWidget):
     
-    def __init__(self):
+    def __init__(self, font_infer):
         super().__init__()
         ### 모델 불러오기 성골 실패 여부
         self.load_ok = False  
-        self.font = ImageFont.truetype(Font_path, 10)
+        self.font = font_infer
         
         self.colors = Colors()
 
